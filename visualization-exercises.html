@@ -1,6 +1,68 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<style>
+		body {
+			font-family: Arial;
+			padding-left: 5em;
+		}
+	
+		#square {
+			font-size: 32px;
+			text-align: center;
+			width: 100px;
+		}
+		.button {
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			border: 1px solid #888;
+		}
+		.black {
+			background-color: #000;
+			color: #fff;
+		}
+	</style>
+</head>
 <body>
 <h1>Visualization Exercises</h1>
+<p id="square"></p>
+<p><span class="button black"></span><span class="button white"></span></p>
+<p id="score"></p>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script>
+	var square;
+	var correct = 0;
+	var incorrect = 0;
+
+	$(function() {
+		square = randomSquare();
+		$("#square").text(square.name);
+		
+		$(".button").click(function () {
+			var buttonColor = $(this).hasClass("black") ? "black" : "white";
+			if (buttonColor === square.color) {
+				correct++;
+			} else {
+				incorrect++;
+			}
+			$("#score").text("Correct: " + correct + "    Incorrect: " + incorrect);
+			
+			square = randomSquare();
+			$("#square").text(square.name);
+		});
+	});
+	
+	function randomSquare() {
+		var file = (~~(Math.random() * 10000)) % 8 + 1;
+		var rank = (~~(Math.random() * 10000)) % 8 + 1;
+		return {
+			name: String.fromCharCode(96 + file) + rank,
+			color: (file + rank) % 2 === 0 ? "black" : "white"
+		};
+	}
+</script>
+
 </body>
 </html>
